@@ -1,0 +1,8 @@
+set1 = {33,628,56,71,1}
+set2 = {33,56,628,71,1}
+print(set1|set2)
+
+if 628 in set1:
+    print('Yes.')
+else:
+    print('No.')
