@@ -1,0 +1,35 @@
+import pgzrun
+import random
+from time import time()
+
+WIDTH = 700
+HEIGHT = 800
+satellites = []
+lines = []
+next_satellite = 0
+start_time = 0
+total_time = 0
+end_time = 0
+number_of_satellite = 10
+
+def create_satellites():
+    global start_time
+    for i in range(0,number_of_satellite):
+        satellite = Actor('satellite')
+        satellite.pos = random.randint(10,WIDTH-30),random.randint(10,HEIGHT-30)
+        satellites.append(satellite)
+
+    start_time = time()
+
+def draw():
+    pass
+
+
+def update():
+    pass
+
+def on_mouse_down(pos):
+    global next_satellite, lines
+    
+
+create_satellites()
