@@ -1,0 +1,14 @@
+import pygame # 2-D graphics Library
+screen = pygame.display.set_mode((300,500)) #(w,h)
+
+screen.fill((255,255,255))
+
+running = True
+while running:
+    for event in pygame.event.get(): # to load all events
+        if event.type == pygame.QUIT:
+            running = True # or pygame.quit()
+    #screen.fill((0,255,0))
+      #OR
+    screen.fill('green')
+    pygame.display.update()
