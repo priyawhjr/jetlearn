@@ -1,143 +1,240 @@
+# questions.txt file under GAME DEV 1 . or if under Quiz Master, then give the path of file.
+'''template link: give following link code to Lr. in 1st class
+Part1 link -> https://replit.com/join/wjpbiandtu-lets-scorescore
+Part 2 link -> https://replit.com/join/xilvlynboj-lets-scorescore
+Part 3 link -> https://replit.com/join/lhnkssfxxh-lets-scorescore '''
+
 import pgzrun
-TITLE = 'Quiz Master'
+from pygame import Rect
+TITLE = "Quiz Master"
 W = 800
-H = 500
-marquee_box = Rect(0,0,800,80)#(starting x, starting y, width, height)
-question_box = Rect(20,90,500,130)
-timer_box = Rect(530,90,130,130)
-ans_box1 = Rect(20,250,230,130)
-ans_box2 = Rect(270,250,230,130)
-ans_box3 = Rect(20,400,230,130)
-ans_box4 = Rect(270,400,230,130)
-skip_box = Rect(530,250,130,300)
+H = 550
 
-
-answer_boxes = [ans_box1, ans_box2, ans_box3, ans_box4]
-
-#variables:
+# reactangles for game elements
+#Syntax -> Rect(start_x coord., start_y coord., W, H)
+marquee_box = Rect(0,0,800,80)  
+question_box = Rect(20,100,550,150) # Rect(x,y,w,h) or (left, top, w,h)
+timer_box = Rect(600,100,150,150)   
+answer_box1 = Rect(20,270,230,150)
+answer_box2 = Rect(270,270,230,150)
+answer_box3 = Rect(20,450,230,150)
+answer_box4 = Rect(270,450,230,150)
+skip_box = Rect(600,270,150,330)
+# variables
 score = 0
-time_left = 15
-marquee_message =''
-is_game_over = False
+time_left = 10 # skip_box show left time to ans a ques
 
-question_file = 'Quiz Master/questions.txt'
-questions = []
-question_count = 0
-question_index = 0
+marquee_message = "" # empty str in beginning
+is_game_over = False #variable
+
+answer_boxes = [answer_box1,answer_box2,answer_box3,answer_box4] # List
+''' # question_file variables can be declare here as well
+#copy 'path' or 'relative path' by right clickto get the quiz file
+question_file_name = "Quiz Master\questions.txt" #(give path, as questions.txt saved in Quiz Master)
+questions = [] #list of ques.
+question_count = 0 #variable
+question_index = 0 # variable'''
+
+'''
+Not Requied following code
+---------------------------
+marquee_box.move_ip(0,0) # ip= initial position
+question_box.move_ip(20,100)
+timer_box.move_ip(600,100)
+answer_box1.move_ip(20,270)
+answer_box2.move_ip(270,270)        answer_box2 = Rect(0,0,230,150)
+answer_box3.move_ip(20,450)         answer_box3 = Rect(0,0,230,150)
+answer_box4.move_ip(270,450)        answer_box4 = Rect(0,0,230,150)
+skip_box.move_ip(600,270)           skip_box = Rect(0,0,150,330)
+'''
+
+#variables
+score=0
+time_left=10
+marquee_message=""
+is_game_over=False
+
+question_file_name="quizmaster\\questions.txt"
+questions=[]
+question_count=0 # total count of quesitons in file
+question_index=0 # current question number
 
 def draw():
-    screen.fill('black')
-    screen.draw.filled_rect(marquee_box,'black')
-    screen.draw.filled_rect(question_box,'magenta')
-    screen.draw.filled_rect(timer_box, 'light blue')
-    screen.draw.filled_rect(skip_box, 'green')
+    global marquee_message
+    screen.clear()
+    screen.fill(color="black") # output screen clr
+    # screen.draw.filled_rect(box_name, 'color')- used to draw 
+    # rectangle with given color
+    screen.draw.filled_rect(marquee_box, "black") 
+    screen.draw.filled_rect(question_box, "navy blue")
+    screen.draw.filled_rect(timer_box, "navy blue")
+    screen.draw.filled_rect(skip_box, "dark green")
 
-
-
+    #to draw answer boxes
     for answer_box in answer_boxes:
-        screen.draw.filled_rect(answer_box,'yellow')
+        screen.draw.filled_rect(answer_box, "dark orange")
 
-#marquee box text:
+    # marquee box- msg & Ques with ques no. 
+    marquee_message = "Welcome To Quiz Master..." #msg
+    marquee_message += f"Q: {question_index} of {question_count}"
 
-    marquee_message = 'Welcome to Quiz-Master...'
-    marquee_message += f'Q: {question_index} of {question_count}'
-    screen.draw.textbox(marquee_message,marquee_box,color = 'white')
+    # To display marquee text (white text-color)
+    screen.draw.textbox(marquee_message, marquee_box, 
+                        color="white")
 
-    #adding timer box
-    screen.draw.textbox(str(time_left),timer_box,color = 'green',
-                        shadow = (0.5,0.5),scolor = 'dim grey')
+    # to display timer box text, text_color,time left
+    screen.draw.textbox(
+        str(time_left),timer_box,
+        color="white", shadow=(0.5,0.5), #shadow effect on text
+        scolor="dim grey")
+    #=====================
+        
+
+
+    #====================
+    #skip box text
+    screen.draw.textbox("SKIP", skip_box, color="black", angle=-90, 
+                        shadow=(-1, -1), scolor="dim gray")
+    '''
+    #OR 
+    screen.draw.textbox( # for different layout of skip box
+        "S\nK\nI\nP", skip_box,
+        color="black")'''
     
-    #adding question box text
-    screen.draw.textbox( question[0].strip(),question_box,color = 'yellow',shadow = (0.5,0.5),
-                        scolor ='dim grey')
+    #to display question box text
+    screen.draw.textbox(question[0].strip(), question_box, 
+                            color="black",
+                        shadow=(0.5, 0.5), scolor="dim gray")
     
-    #adding answer box text
+    
+
+    # to display ques_box text
+    screen.draw.textbox( #'question'variable declared at the end of prog.
+        question[0].strip(), question_box, #strip()-to remove extra whitespaces 
+                    #and specified characters 
+        color="white", shadow=(0.5,0.5),
+        scolor="dim grey"
+        )
+    
+    # to display ans_box texts
     index = 1
     for answer_box in answer_boxes:
-        screen.draw.textbox(question[index].strip(),answer_box,color = 'black')
-
+        screen.draw.textbox(question[index].strip(), answer_box, 
+                            color="black")
         index = index + 1
-
-
 
 def update():
     move_marquee()
 
+'''It updates the marquee_box position by decrementing
+ its x-coordinate.If the marquee box goes off-screen,
+   it resets to the right side of the screen.'''
 def move_marquee():
-    marquee_box.x -=2 
-    if marquee_box.right< 0:
+    marquee_box.x  -=  2 #inc.it to 12, to speedup marquee
+    # if marquee text end part come to left edge, left text 
+    # appears on right edge
+    if marquee_box.right < 0:
         marquee_box.left = W
 
+
+#copy 'path' or 'relative path' by right clickto get the quiz file
+#question_file_name = "Quiz Master\questions.txt" #(give path, as 
+#questions.txt saved in Quiz Master)
+question_file_name = "Quiz Master\\questions.txt"
+#question_file_name = "Quiz Master\mathsquiz.txt"  # H.W
+questions = [] #list of questions
+question_count = 0 # Tot num. of ques
+question_index = 0 # current ques num.
+
+
+# func to open a file & read its ques from a file 
 def read_question_file():
     global question_count, questions
-    q_file = open(question_file,'r')
-    for question in q_file:
-        questions.append(question)
-        question_count +=1
-    q_file.close()
+    q_file = open(question_file_name, "r") # open file in read mode only
+    for question in q_file: #'question' variable declared at last
+       
+        questions.append(question)# it appends question to questions list.
+        question_count += 1 #keeps track of tot. num. of ques in the file.
+    q_file.close() #close file after reading all Q.
 
-def read_nextques():
+# func to read next ques
+def read_next_ques():
     global question_index
-    question_index += 1
-    return questions.pop(0).split("|")
+    question_index +=  1
+    #The first question that has been added to the 
+    # questions list is obtained and split using ‘|’ as the separator
+    # to split the Q & ans from '|' for ans_boxes 
+    return questions.pop(0).split("|") #'questions' is list declared above
 
-def on_mouse_down(pos):
-  
-    index = 1
-    for box in answer_boxes:
-        if box.collidepoint(pos):
-            if index == int(question[5]):
-              correct_answer()
+   
+'''It checks if the click is inside any of the answer choice boxes.
+If the correct answer box is clicked, correct_answer() is called.
+If a wrong answer box is clicked, game_over() is called.'''
+def on_mouse_down(pos):#'on_mouse_down()' handles mouse clicks
+    index = 1 #variable 'index' to track of the current ans_box being chckd
+    for box in answer_boxes:#Iterates each 'box' in list 'answer_boxes'
+        if box.collidepoint(pos):#mouse click 'pos' is inside the current answer box
+            if index == int(question[5]): #question[5] is- index of correct answer for the current question.
+                correct_answer()#If correct,calls the correct_answer()
             else:
-              game_over()
-        index += 1
+                game_over()#If incorrect, it calls the game_over function.
+        index = index + 1
+    #It also checks if the mouse click happened inside the skip box, 
+        #in that case it calls the skip_question().
     if skip_box.collidepoint(pos):
         skip_question()
 
 
-
-def correct_answer():
-    global score, time_left, questions, question
-    score += 1
-    if questions: #If questions = true (more questions left)
-        question = read_nextques()
-        time_left = 15
+def correct_answer(): #declare correct_answer()
+    global score, question, time_left, questions
+    score = score + 1
+    if questions: #If more questions left (i.e more ques ==True),
+        question = read_next_ques()# it fetches next question using read_next_question()
+        time_left = 10 # & resets the time_left= 10.
     else:
-        game_over()
-
-
-
+        game_over()#If no more questions left, it calls game_over() 
 
 def game_over():
-    global time_left,question,is_game_over
-    message = f"Game over!\nYou got{score} questions correct!"
+    global question, time_left, is_game_over
+    message = f"Game over!\nYou got {score} questions correct!"
+    #question = [msssage, option1, option2, option3, option4, correct_answer]
+    question = [message, "-","-","-","-",5] # to show game over message in ques_box
+       #OR
+    #question = [message, " ", " ", " ", " ", 5]
     time_left = 0
     is_game_over = True
 
+
 def skip_question():
     global question, time_left
+    #It checks if there are more questions and the game is not over.
     if questions and not is_game_over:
-        question = read_nextques()
-        time_left = 15
+        question = read_next_ques()#fetches the next question using read_next_question()
+        time_left = 10 # and resets time_left to 10.
     else:
-        game_over()
+        game_over()#If no more questions left or the game is over,calls game_over
+
 
 def update_time_left():
     global time_left
-    if time_left:
-        time_left -= 1
+    if time_left: # if true
+        time_left = time_left - 1
     else:
         game_over()
 
-read_question_file()
-question = read_nextques()
-clock.schedule_interval(update_time_left, 1)
 
+read_question_file()#call read_question_file(),we defined earlier.
 
-
-    
-
-
-
+# initializes the question variable by calling the read_next_ques()
+question = read_next_ques() # declare'question' variable
+clock.schedule_interval(update_time_left, 1)#This line schedules the 
+                    #update_time_left() to be called every 1 second.
 
 pgzrun.go()
+    
+#=======================================
+'''
+H.W: Add a reset button to quiz game
+Solution link:  https://replit.com/join/lshtzppqyl-lets-scorescore'''
+# Resources : https://www.udemy.com/course/python-game-development-with-pygame-zero/learn/lecture/21228494#overview
+# Username - abhishek.bahl@gmail.com, Password - Lkkw2(&yA(#W5AA
