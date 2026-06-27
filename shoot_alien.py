@@ -3,7 +3,6 @@ from random import randint
 TITLE = 'Shoot the Alien'
 WIDTH = 500
 HEIGHT = 500
-
 msg = ''
 
 alien = Actor("alien")
